@@ -57,7 +57,3 @@ def sum_prices(d):
   Out: Aggregation of prices
   """
   return sum(map(lambda x: float(x), d.values()))
-
-d = parse("out.txt") 
-print d
-print sum_prices(d)
