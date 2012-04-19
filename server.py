@@ -5,7 +5,7 @@ The most basic (working) CherryPy application possible.
 import time
 import cherrypy
 import random
-import parser
+import ocrparser
 import util
 
 #time, so that its unique
@@ -59,8 +59,10 @@ class Server:
 
 
         ocr_file = process_ocr(self.img) #critical method, must be allowed to run on multiple threads in future
-	d = parser.parse(ocr_file)
-	self.result = '\n'.join(d) + '\n' + parser.sum_prices(d)
+	d = ocrparser.parse(ocr_file)
+	for k in d.keys():
+		self.result += k+" "+str(d[k])+'\n' #TODO this does not work for me!
+	self.result += str(ocrparser.sum_prices(d))
         print 'Processing complete'
 
         return out % (size, myFile.filename, myFile.content_type)
@@ -69,7 +71,7 @@ class Server:
 
 def process_ocr(img_filename):
     
-  tiffile = util.jpg_to_tif(img_filename,filename[:-4]+".tif",rotate=False)
+  tiffile = util.jpg_to_tif(img_filename,img_filename[:-4]+".tif",rotate=False)
   print 'tiffile: '+tiffile
   outfile = util.tif_to_ocr(tiffile,tiffile[:-4]+"out")
   print 'outfile: '+outfile
