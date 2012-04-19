@@ -15,7 +15,7 @@ char_to_digit = {"l" : "1",
                  "9" : "9",
                  "." : "."}
 
-def process_price(v):
+def _process_price(v):
   """
   In: string value such as '3T.99'
   Out: Common mistakes corrected, such as character T -> 1
@@ -46,7 +46,7 @@ def parse(filename):
     if m: 
       #print m.group(0) #entire line
       item = ' '.join(m.group(0).split(" ")[:-1])
-      val = process_price(m.group(1)) #converts common OCR number 'mistakes'
+      val = _process_price(m.group(1)) #converts common OCR number 'mistakes'
       d[item] = val 
 
   return d

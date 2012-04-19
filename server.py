@@ -58,22 +58,23 @@ class Server:
             size += len(data)
 
 
-        self.result = process_ocr(self.img) #critical method, must be allowed to run on multiple threads in future
+        ocr_file = process_ocr(self.img) #critical method, must be allowed to run on multiple threads in future
+	d = parser.parse(ocr_file)
+	self.result = '\n'.join(d) + '\n' + parser.sum_prices(d)
         print 'Processing complete'
 
         return out % (size, myFile.filename, myFile.content_type)
     upload.exposed = True
 
 
-def process_ocr(filename):
+def process_ocr(img_filename):
     
-  tiffile = util.jpg_to_tif(filename,filename[:-4]+".tif",rotate=False)
+  tiffile = util.jpg_to_tif(img_filename,filename[:-4]+".tif",rotate=False)
   print 'tiffile: '+tiffile
   outfile = util.tif_to_ocr(tiffile,tiffile[:-4]+"out")
   print 'outfile: '+outfile
   
-  fp = open(outfile, 'r')
-  return fp.readlines()
+  return outfile
     
 
 import os.path
