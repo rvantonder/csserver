@@ -5,6 +5,8 @@ The most basic (working) CherryPy application possible.
 import time
 import cherrypy
 import random
+import parser
+import util
 
 #time, so that its unique
 #phone number, just cuz
@@ -17,6 +19,7 @@ class Server:
       self.db = {}
       self.balances = {}
       self.img = "pics/new.jpg"
+      self.result = ""
 
     def index(self, *args, **kwargs):
         return  """
@@ -25,9 +28,10 @@ class Server:
 		           <body>
 		           <div style="text-align: center;">
 		           <img src="%s">
+               <p>%s</p>
 		           </div>
                </body></html>
-               """ % (self.img)
+               """ % (self.img, self.result)
 
     index.exposed = True 
 
@@ -53,8 +57,24 @@ class Server:
                 break
             size += len(data)
 
+
+        self.result = process_ocr(self.img) #critical method, must be allowed to run on multiple threads in future
+        print 'Processing complete'
+
         return out % (size, myFile.filename, myFile.content_type)
     upload.exposed = True
+
+
+  def process_ocr(filename):
+    
+    tiffile = util.jpg_to_tif(filename,filename[:-4]+".tif",rotate=False)
+    print 'tiffile: '+tiffile
+    outfile = util.tif_to_ocr(tiffile,tiffile[:-4]+"out")
+    print 'outfile: '+outfile
+    
+    fp = open(outfile, 'r')
+    return fp.readlines()
+    
 
 import os.path
 appconf = os.path.join(os.path.dirname(__file__), 'app.conf')
