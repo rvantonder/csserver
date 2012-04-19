@@ -22,16 +22,17 @@ class Server:
       self.result = ""
 
     def index(self, *args, **kwargs):
+        #image line: <img src="%s">
         return  """
                <html>
 		           <head><title>Test</title></head>
 		           <body>
 		           <div style="text-align: center;">
-		           <img src="%s">
+		           
                <p>%s</p>
 		           </div>
                </body></html>
-               """ % (self.img, self.result)
+               """  % (self.result) #% (self.img, self.result)
 
     index.exposed = True 
 
@@ -59,13 +60,17 @@ class Server:
 
 
         ocr_file = process_ocr(self.img) #critical method, must be allowed to run on multiple threads in future
-	d = ocrparser.parse(ocr_file)
-	for k in d.keys():
-		self.result += k+" "+str(d[k])+'\n' #TODO this does not work for me!
-	self.result += str(ocrparser.sum_prices(d))
+
+	      d = ocrparser.parse(ocr_file)
+
+	      for k in d.keys():
+		      self.result += k+" "+str(d[k])+'<br />' #TODO this does not work for me!
+
+	      self.result += str(ocrparser.sum_prices(d))
         print 'Processing complete'
 
         return out % (size, myFile.filename, myFile.content_type)
+
     upload.exposed = True
 
 
