@@ -65,15 +65,15 @@ class Server:
     upload.exposed = True
 
 
-  def process_ocr(filename):
+def process_ocr(filename):
     
-    tiffile = util.jpg_to_tif(filename,filename[:-4]+".tif",rotate=False)
-    print 'tiffile: '+tiffile
-    outfile = util.tif_to_ocr(tiffile,tiffile[:-4]+"out")
-    print 'outfile: '+outfile
-    
-    fp = open(outfile, 'r')
-    return fp.readlines()
+  tiffile = util.jpg_to_tif(filename,filename[:-4]+".tif",rotate=False)
+  print 'tiffile: '+tiffile
+  outfile = util.tif_to_ocr(tiffile,tiffile[:-4]+"out")
+  print 'outfile: '+outfile
+  
+  fp = open(outfile, 'r')
+  return fp.readlines()
     
 
 import os.path
