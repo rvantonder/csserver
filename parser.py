@@ -52,6 +52,10 @@ def parse(filename):
   return d
 
 def sum_prices(d):
+  """
+  In: A dictionary conforming to that returned by parse
+  Out: Aggregation of prices
+  """
   return sum(map(lambda x: float(x), d.values()))
 
 d = parse("out.txt") 
