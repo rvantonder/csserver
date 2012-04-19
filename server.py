@@ -42,8 +42,8 @@ class Server:
               </html>
               """ #TODO get rid of this
 
-        self.image = "pics/"+str(int(time.time()))+".jpg"
-        f = open(self.image, "w") 
+        self.img = "pics/"+str(int(time.time()))+".jpg"
+        f = open(self.img, "w") 
 
         size = 0
         while True:
