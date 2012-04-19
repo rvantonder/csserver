@@ -28,11 +28,11 @@ class Server:
 		           <head><title>Test</title></head>
 		           <body>
 		           <div style="text-align: center;">
-		           
+		           <img src="%s">
                <p>%s</p>
 		           </div>
                </body></html>
-               """  % (self.result) #% (self.img, self.result)
+               """  % (self.img, self.result)
 
     index.exposed = True 
 
@@ -61,12 +61,17 @@ class Server:
 
         ocr_file = process_ocr(self.img) #critical method, must be allowed to run on multiple threads in future
 
-	      d = ocrparser.parse(ocr_file)
+        d = ocrparser.parse(ocr_file)
 
-	      for k in d.keys():
-		      self.result += k+" "+str(d[k])+'<br />' #TODO this does not work for me!
+        print 'dict: '
+        print d
 
-	      self.result += str(ocrparser.sum_prices(d))
+        self.result = ""
+
+        for k in d.keys():
+          self.result += k+" "+str(d[k])+'<br />' #TODO this does not work for me!
+
+        self.result += str(ocrparser.sum_prices(d))
         print 'Processing complete'
 
         return out % (size, myFile.filename, myFile.content_type)
@@ -76,7 +81,7 @@ class Server:
 
 def process_ocr(img_filename):
     
-  tiffile = util.jpg_to_tif(img_filename,img_filename[:-4]+".tif",rotate=False)
+  tiffile = util.jpg_to_tif(img_filename,img_filename[:-4]+".tif",rotate=True)
   print 'tiffile: '+tiffile
   outfile = util.tif_to_ocr(tiffile,tiffile[:-4]+"out")
   print 'outfile: '+outfile
