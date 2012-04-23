@@ -19,6 +19,7 @@ class Server:
       self.db = {}
       self.balances = {}
       self.img = "pics/new.jpg"
+      self.bw_static = "pics/bw_static.jpg"
       self.result = ""
 
     def index(self, *args, **kwargs):
@@ -30,9 +31,10 @@ class Server:
 		           <div style="text-align: center;">
 		           <img src="%s">
                <p>%s</p>
+               <img src="%s">
 		           </div>
                </body></html>
-               """  % (self.img, self.result)
+               """  % (self.img, self.result, self.bw_static)
 
     index.exposed = True 
 
