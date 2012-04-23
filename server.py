@@ -59,6 +59,7 @@ class Server:
             size += len(data)
 
 
+        #ocr_file contains the raw ocr
         ocr_file = process_ocr(self.img) #critical method, must be allowed to run on multiple threads in future
 
         d = ocrparser.parse(ocr_file)
@@ -73,6 +74,10 @@ class Server:
 
         self.result += str(ocrparser.sum_prices(d))
         print 'Processing complete'
+
+        # use the raw ocr parse for now, TODO uncomment for 'real' parse
+        ocr_f = open(ocr_file, "w")
+        self.result = ocr_f.readlines()
 
         return out % (size, myFile.filename, myFile.content_type)
 
