@@ -78,6 +78,7 @@ class Server:
         # use the raw ocr parse for now, TODO uncomment for 'real' parse
         ocr_f = open(ocr_file, "w")
         self.result = ocr_f.readlines()
+        print self.result
 
         return out % (size, myFile.filename, myFile.content_type)
 
