@@ -7,6 +7,7 @@ def jpg_to_tif(jpgin, tifout, rotate=False):
   Returns: tif file name
   """
   if rotate: # It may be necessary to rotate the image for OCR
+    subprocess.call(["convert", "-threshold", "30%", jpgin, jpgin]) # apply thresholding, hopefully we get a better pic!
     subprocess.call(["convert", jpgin, tifout])
     subprocess.call(["convert", "-rotate", "90", tifout, tifout])
   else:
